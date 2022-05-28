@@ -39,7 +39,7 @@ class TestTimer extends React.Component {
     }
   
     componentDidMount() {
-        getCurrHold();
+
     }
   
   

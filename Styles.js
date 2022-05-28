@@ -5,6 +5,10 @@ export const styles = StyleSheet.create({
     TextColor: {
       color: '#b0e0e6'
     },
+
+    PracticeTimerStyle: {
+      alignSelf: 'center',
+    },
   
     ButtonStyle: {
       paddingVertical: 12,
@@ -62,6 +66,7 @@ export const styles = StyleSheet.create({
   
     ScreenStyle: {
       flex: 1,
+      alignItems: 'center',
       backgroundColor: '#00004d'
     },
 
