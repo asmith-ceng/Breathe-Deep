@@ -4,15 +4,37 @@ import { styles } from './Styles';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import * as SecureStore from 'expo-secure-store';
 
+// medium decrement of rest time (6.25 percent of PB less each interval)
+const mediumDecrease = [0.5, 0.4375, 0.375, 0.3125, 0.25, 0.1875, 0.125, 0.0625];
+const numIntervals = 8;
+const baseIntervals = [15, 15, 15, 13, 15, 11, 15, 9, 15, 8, 15, 6, 15, 4, 15, 2]
+
 async function getTestTimes() {
   let currHold = await SecureStore.getItemAsync('curr-hold');
-  return [1, 2, 3, 4, 5]
+  let minutes = currHold.substring(0, 2);
+  let seconds = currHold.substring(3, 5);
+  seconds = parseInt(seconds);
+  // total seconds of the current hold
+  seconds += 60 * parseInt(minutes);
+  
+  if (seconds < 30) {
+    alert("here");
+    return baseIntervals;
+  } else {
+    let intervals = []
+    for (let i = 0; i < numIntervals; i++) {
+      intervals.push(Math.round(seconds * 0.5));
+      intervals.push(Math.round(seconds * mediumDecrease[i]));
+    }
+    return intervals;
+  }
 }
 
 class PracticeTimer extends React.Component {
 
 
   state = {
+    buttonText: "start",
     isPlaying: false,
     isHold: true,
     timerDurations: [10],
@@ -25,7 +47,7 @@ class PracticeTimer extends React.Component {
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onTimerComplete = this.onTimerComplete.bind(this);
     //this.onButtonPause = this.onButtonPause.bind(this);
-    getTestTimes().then(result => this.setState({timerDurations: result}))
+    getTestTimes().then(result => this.setState({timerDurations: result}));
   }
 
   componentDidMount() {
@@ -45,10 +67,12 @@ class PracticeTimer extends React.Component {
 
   onButtonStart = () => {
     this.setState({isPlaying: true});
+    this.setState({buttonText: "pause"});
   }
 
   onButtonPause = () => {
     this.setState({isPlaying: false});
+    this.setState({buttonText: "start"});
   }
 
   onTimerComplete = () => {
@@ -77,8 +101,8 @@ class PracticeTimer extends React.Component {
         isPlaying={this.state.isPlaying}
         duration={this.state.timerDurations[this.state.durationIndex]}
         initialRemainingTime={this.state.timerDurations[this.state.durationIndex]}
-        colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-        colorsTime={[7, 5, 2, 0]}
+        colors={['#A49BFA', '#57B0FF']}
+        //colorsTime={[7, 5, 2, 0]}
         onComplete={this.onTimerComplete}
       >
         {({ remainingTime }) => <Text style={styles.TextColor}>{remainingTime}</Text>}
@@ -87,7 +111,7 @@ class PracticeTimer extends React.Component {
         style = {styles.ButtonStyle}
         onPress={this.onButtonPress}
       >
-        <Text style={styles.ButtonText}>start test</Text>
+        <Text style={styles.ButtonText}>{this.state.buttonText}</Text>
       </TouchableOpacity>
      </View>
     );
