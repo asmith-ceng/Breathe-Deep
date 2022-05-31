@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, View, Text, StyleSheet, Timer, Stopwatch, AppRegistry, TouchableOpacity } from 'react-native';
-import { styles } from './Styles';
+import { LIGHT, styles } from './Styles';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import * as SecureStore from 'expo-secure-store';
 
@@ -39,7 +39,10 @@ class PracticeTimer extends React.Component {
     isHold: true,
     timerDurations: [10],
     durationIndex: 0,
-    key: 0
+    key: 0,
+    trail: 'black',
+    color: LIGHT,
+    message: 'hold for',
   }
 
   constructor(props) {
@@ -77,14 +80,17 @@ class PracticeTimer extends React.Component {
 
   onTimerComplete = () => {
     if (this.state.durationIndex == this.state.timerDurations.length -1 ) {
+      this.setState({message: 'session complete!'})
       return;
     }
     if (this.state.isHold == true) {
+      this.setState({message: 'relax for'})
       this.setState({durationIndex: this.state.durationIndex + 1});
       this.setState({isHold: !this.state.isHold});
       this.setState({key: this.state.key + 1});
       //return { shouldRepeat: true, duration: this.state.timerDurations[this.state.durationIndex]}
     } else {
+      this.setState({message: 'hold for'})
       this.setState({durationIndex: this.state.durationIndex + 1});
       this.setState({isHold: !this.state.isHold});
       this.setState({key: this.state.key + 1});
@@ -92,36 +98,59 @@ class PracticeTimer extends React.Component {
     }
   }
 
+  
+
   render() {
     return(
-    <View style={styles.ScreenStyle}>
+    <View style={styles.CO2PracticeScreenStyle}>
+      <View style={styles.Circle}>
       <CountdownCircleTimer
-        style={styles.PracticeTimerStyle}
         key={this.state.key}
         isPlaying={this.state.isPlaying}
         duration={this.state.timerDurations[this.state.durationIndex]}
         initialRemainingTime={this.state.timerDurations[this.state.durationIndex]}
-        colors={['#A49BFA', '#57B0FF']}
+        colors={LIGHT}
+        size={220}
+        trailColor={'black'}
         //colorsTime={[7, 5, 2, 0]}
         onComplete={this.onTimerComplete}
       >
-        {({ remainingTime }) => <Text style={styles.TextColor}>{remainingTime}</Text>}
+        {({ remainingTime }) => 
+          <View style={styles.CenterItems}>
+            <Text style={styles.PracticeTimerTextStyle}>{this.state.message}</Text>
+            <Text style={styles.PracticeTimerTextStyle}>{getTimeText(remainingTime)}</Text>
+          </View>
+        }
       </CountdownCircleTimer>
+      </View>
+      <View style={styles.PlaceHolder}></View>
+      <View style={styles.CO2PracticeScreenStyle}>
       <TouchableOpacity
-        style = {styles.ButtonStyle}
+        style = {styles.HomeButtonStyle}
         onPress={this.onButtonPress}
       >
-        <Text style={styles.ButtonText}>{this.state.buttonText}</Text>
+        <Text style={styles.HomeButtonTextStyle}>{this.state.buttonText}</Text>
       </TouchableOpacity>
-     </View>
+      </View>
+    </View>
     );
   }
 }
 
-export function PracticeScreen() {
+function getTimeText(time) {
+  let minutes = Math.floor(time/60);
+  let seconds = time%60;
+  let timeString = "" + minutes + ":" + seconds;
+  if (timeString.length == 4) {
+    timeString = "0" + timeString;
+  }
+  return timeString;
+}
+
+
+export function CO2PracticeScreen() {
     return (
-      <View style={styles.ScreenStyle}>
-        <Text style={styles.TextColor}>Practice Screen</Text>
+      <View style={styles.CO2PracticeScreenStyle}>
         <PracticeTimer/>
       </View>
     );

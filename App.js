@@ -5,8 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Feather';
 import IosFonts from './IosFonts';
 import { TestScreen } from './Test';
-import { styles, LIGHT, DARK } from './Styles';
-import { PracticeScreen } from './Practice';
+import { styles, LIGHT, DARK, ACSNT, ACSNT1 } from './Styles';
+import { CO2PracticeScreen } from './Practice';
 import * as SecureStore from 'expo-secure-store';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 
@@ -18,6 +18,18 @@ async function checkValue() {
     await SecureStore.setItemAsync('curr-hold', '0');
   }
 }
+
+let trail = 'black';
+let color = LIGHT;
+
+// function switchTimerColors() {
+//   alert("here");
+//   let lastTrail = trail;
+//   let lastColor = color;
+//   color = lastTrail;
+//   trail = lastColor;
+//   return { shouldRepeat: true };
+// }
 
 function HomeScreen({ navigation }) {
   return (
@@ -38,20 +50,28 @@ function HomeScreen({ navigation }) {
 
         <TouchableOpacity
           style = {styles.HomeButtonStyle}
-          onPress={() => navigation.navigate('Practice')}
+          onPress={() => navigation.navigate('CO2Practice')}
         >
           <Text style={styles.HomeButtonTextStyle}>C02 practice</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style = {styles.HomeButtonStyle}
+          onPress={() => navigation.navigate('O2Practice')}
+        >
+          <Text style={styles.HomeButtonTextStyle}>02 practice</Text>
+        </TouchableOpacity>
       </View>
+      <View style={styles.Line}></View>
       <View style={styles.Circle}>
         <CountdownCircleTimer
           size={220}
           isPlaying={false}
-          duration={20}
-          trailColor={'#2a246e'}
-          initialRemainingTime={14}
-          colors={['#b2aded', '#b2aded']}
-          colorsTime={[7, 5, 2, 0]}
+          duration={10}
+          trailColor={trail}
+          colors={[color, color]}
+          colorsTime={[30, 0]}
+          //onComplete={switchTimerColors()}
         >
       </CountdownCircleTimer>
       </View>
@@ -76,7 +96,16 @@ function App() {
           }}
           />
         <Stack.Screen name="Test" component={TestScreen} />
-        <Stack.Screen name="Practice" component={PracticeScreen} />
+        <Stack.Screen
+          name="CO2Practice" 
+          component={CO2PracticeScreen}
+          options={{
+            headerStyle: {
+              backgroundColor: DARK,
+            }
+          }}
+           />
+        <Stack.Screen name="O2Practice" component={CO2PracticeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

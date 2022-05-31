@@ -2,9 +2,10 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { screensEnabled } from 'react-native-screens';
 
-export const LIGHT = '#b2aded';
-export const DARK = '#2a246e';
-export const ACSNT = '#f75454';
+export const LIGHT = '#EDF2F3';
+export const DARK = '#1F3541';
+export const ACSNT1 = '#AFD8F2';
+export const ACSNT = '#5289B5';
 //const FONT;
 export const CIRCLE_SIZE = 220;
 
@@ -12,21 +13,23 @@ export const styles = StyleSheet.create({
   // HOME SCREEN --------
 
     HomeButtonStyle: {
-      shadowColor: 'rgba(0,0,0, .4)',
-      shadowOffset: { height: 1, width: 1 }, // IOS
+      shadowColor: 'black',
+      shadowOffset: { height: 3, width: 3 }, // IOS
       shadowOpacity: 1, // IOS
       shadowRadius: 5, //IOS
       paddingVertical: 12,
       width: 200,
       borderRadius: 10,
-      backgroundColor: LIGHT,
+      borderColor: LIGHT,
+      borderWidth: 2,
+      backgroundColor: DARK,
       alignSelf: 'center',
       margin: 5,
       alignItems: 'center',
     },
 
     Circle: {
-      paddingTop: 43,
+      paddingTop: 25,
       width: 300,
       height: 300,
 
@@ -38,27 +41,37 @@ export const styles = StyleSheet.create({
     },
 
     HomeButtonTextStyle: {
-      color: DARK,
+      color: LIGHT,
       fontSize: 20,
       fontFamily: 'Verdana-Bold'
     },
 
     OtherTitleTextStyle: {
-      color: ACSNT,
-      fontSize: 50,
-      paddingTop: 40,
+      color: ACSNT1,
+      fontSize: 30,
+      paddingTop: 100,
       fontFamily: 'Verdana-Bold',
-      //alignSelf: 'stretch',
+    },
+
+    Line: {
+      marginTop: 136,
+      backgroundColor: LIGHT,
+      width: 100,
+      height: 4,
+      zIndex: 2,
+      position: 'absolute',
+      alignSelf: 'center',
+      borderRadius: 2,
     },
 
     TitleTextStyle: {
-      color: LIGHT,
-      fontSize: 50,
+      color: ACSNT,
+      fontSize: 30,
       transform: [
-        {scaleY: 3},
+        {scaleY: 1},
         {scaleX: 1}
       ],
-      paddingTop: 7,
+      
       fontFamily: 'Verdana-Bold',
       //alignSelf: 'stretch',
     },
@@ -69,12 +82,17 @@ export const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       zIndex: 2,
     },
+    
 
     ButtonViewStyle: {
       flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
       backgroundColor: DARK
+    },
+
+    CenterItems: {
+      alignItems: 'center',
     },
 
     HomeScreenStyle: {
@@ -86,18 +104,41 @@ export const styles = StyleSheet.create({
       color: LIGHT
     },
 
+  // CO2Practice Screen
 
+  PlaceHolder: {
+    backgroundColor: DARK,
+    flex: 1.5,
+    alignItems: 'center',
+  },
 
+    CO2PracticeScreenStyle: {
+      backgroundColor: DARK,
+      flex: 2,
+      alignItems: 'center',
+    },
 
+    CO2PracticeTimerView: {
+      paddingTop: 25,
+      width: 300,
+      height: 300,
+      zIndex: 1,
+      position: 'absolute',
+      alignSelf: 'center',
+      alignItems: 'center',
+    },
 
+    PracticeTimerTextStyle: {
+      color: LIGHT,
+      fontSize: 20,
+      fontFamily: 'Verdana-Bold'
+    },
 
     TextColor: {
       color: '#b0e0e6'
     },
 
-    PracticeTimerStyle: {
-      alignSelf: 'center',
-    },
+    
   
     ButtonStyle: {
       paddingVertical: 12,
