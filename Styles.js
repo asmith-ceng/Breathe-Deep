@@ -130,7 +130,13 @@ export const styles = StyleSheet.create({
 
     PracticeTimerTextStyle: {
       color: LIGHT,
-      fontSize: 20,
+      fontSize: 18,
+      fontFamily: 'Verdana-Bold'
+    },
+
+    PracticeTimeTextStyle: {
+      color: LIGHT,
+      fontSize: 25,
       fontFamily: 'Verdana-Bold'
     },
 

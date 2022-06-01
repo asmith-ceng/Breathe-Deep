@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, View, Text, StyleSheet, Timer, Stopwatch, AppRegistry, TouchableOpacity } from 'react-native';
+import { Button, View, Text, StyleSheet, Timer, Stopwatch, AppRegistry, TouchableOpacity, Vibration } from 'react-native';
 import { LIGHT, styles } from './Styles';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import * as SecureStore from 'expo-secure-store';
@@ -18,7 +18,6 @@ async function getTestTimes() {
   seconds += 60 * parseInt(minutes);
   
   if (seconds < 30) {
-    alert("here");
     return baseIntervals;
   } else {
     let intervals = []
@@ -29,6 +28,10 @@ async function getTestTimes() {
     return intervals;
   }
 }
+
+let first = false;
+let second = false;
+let third = false;
 
 class PracticeTimer extends React.Component {
 
@@ -60,6 +63,10 @@ class PracticeTimer extends React.Component {
   componentWillUnmount() {
   }
 
+  onSkipPress = () => {
+    this.onTimerComplete();
+  }
+
   onButtonPress = () => {
     if (this.state.isPlaying == false) {
       this.onButtonStart();
@@ -79,6 +86,7 @@ class PracticeTimer extends React.Component {
   }
 
   onTimerComplete = () => {
+    Vibration.vibrate(1000);
     if (this.state.durationIndex == this.state.timerDurations.length -1 ) {
       this.setState({message: 'session complete!'})
       return;
@@ -98,6 +106,33 @@ class PracticeTimer extends React.Component {
     }
   }
 
+
+
+  onTimerUpdate(remainingTime) {
+    if (remainingTime == 3 && !first) {
+      Vibration.vibrate(100);
+      third = false;
+      second = false;
+      first = true;
+    } else if (remainingTime == 2 && !second) {
+      Vibration.vibrate(100);
+      third = false;
+      first = false;
+      second = true;
+    } else if (remainingTime == 1 && !third) {
+      Vibration.vibrate(100);
+      second = false;
+      first = false;
+      third = true;
+    }
+    return (
+      <View style={styles.CenterItems}>
+            <Text style={styles.PracticeTimerTextStyle}>{this.state.message}</Text>
+            <Text style={styles.PracticeTimeTextStyle}>{getTimeText(remainingTime)}</Text>
+      </View>
+    );
+  }
+
   
 
   render() {
@@ -115,12 +150,7 @@ class PracticeTimer extends React.Component {
         //colorsTime={[7, 5, 2, 0]}
         onComplete={this.onTimerComplete}
       >
-        {({ remainingTime }) => 
-          <View style={styles.CenterItems}>
-            <Text style={styles.PracticeTimerTextStyle}>{this.state.message}</Text>
-            <Text style={styles.PracticeTimerTextStyle}>{getTimeText(remainingTime)}</Text>
-          </View>
-        }
+        {({ remainingTime }) => this.onTimerUpdate(remainingTime) }
       </CountdownCircleTimer>
       </View>
       <View style={styles.PlaceHolder}></View>
@@ -131,6 +161,13 @@ class PracticeTimer extends React.Component {
       >
         <Text style={styles.HomeButtonTextStyle}>{this.state.buttonText}</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style = {styles.HomeButtonStyle}
+        onPress={this.onSkipPress}
+      >
+        <Text style={styles.HomeButtonTextStyle}>skip</Text>
+      </TouchableOpacity>
       </View>
     </View>
     );
@@ -140,10 +177,15 @@ class PracticeTimer extends React.Component {
 function getTimeText(time) {
   let minutes = Math.floor(time/60);
   let seconds = time%60;
-  let timeString = "" + minutes + ":" + seconds;
-  if (timeString.length == 4) {
-    timeString = "0" + timeString;
+  let minutesString = "" + minutes;
+  let secondsString = "" + seconds;
+  if (minutesString.length < 2) {
+    minutesString = "0" + minutesString;
   }
+  if (secondsString.length < 2) {
+    secondsString = "0" + secondsString;
+  }
+  let timeString = minutesString + ":" + secondsString;
   return timeString;
 }
 
