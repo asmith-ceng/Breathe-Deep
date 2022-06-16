@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, View, Text, StyleSheet, Timer, Stopwatch, AppRegistry, TouchableOpacity, Vibration } from 'react-native';
+import { Button, View, Text, TouchableOpacity, Vibration } from 'react-native';
 import { LIGHT, styles } from './Styles';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import * as SecureStore from 'expo-secure-store';
@@ -7,7 +7,7 @@ import * as SecureStore from 'expo-secure-store';
 // medium decrement of rest time (6.25 percent of PB less each interval)
 const mediumDecrease = [0.5, 0.4375, 0.375, 0.3125, 0.25, 0.1875, 0.125, 0.0625];
 const numIntervals = 8;
-const baseIntervals = [15, 15, 15, 13, 15, 11, 15, 9, 15, 8, 15, 6, 15, 4, 15, 2]
+const baseIntervals = [15, 15, 13, 15, 11, 15, 9, 15, 8, 15, 6, 15, 4, 15, 2, 15, 0]
 
 async function getTestTimes() {
   let currHold = await SecureStore.getItemAsync('curr-hold');
@@ -22,9 +22,10 @@ async function getTestTimes() {
   } else {
     let intervals = []
     for (let i = 0; i < numIntervals; i++) {
-      intervals.push(Math.round(seconds * 0.5));
       intervals.push(Math.round(seconds * mediumDecrease[i]));
+      intervals.push(Math.round(seconds * 0.5));  
     }
+    intervals.push(0);
     return intervals;
   }
 }
@@ -39,13 +40,13 @@ class PracticeTimer extends React.Component {
   state = {
     buttonText: "start",
     isPlaying: false,
-    isHold: true,
+    isHold: false,
     timerDurations: [10],
     durationIndex: 0,
     key: 0,
     trail: 'black',
     color: LIGHT,
-    message: 'hold for',
+    message: 'relax for',
   }
 
   constructor(props) {
@@ -87,25 +88,23 @@ class PracticeTimer extends React.Component {
 
   onTimerComplete = () => {
     Vibration.vibrate(1000);
-    if (this.state.durationIndex == this.state.timerDurations.length -1 ) {
+    if (this.state.durationIndex == this.state.timerDurations.length - 2) {
       this.setState({message: 'session complete!'})
-      return;
+      this.setState({durationIndex: this.state.durationIndex + 1});
+      return { shouldRepeat: false };
     }
     if (this.state.isHold == true) {
       this.setState({message: 'relax for'})
       this.setState({durationIndex: this.state.durationIndex + 1});
       this.setState({isHold: !this.state.isHold});
       this.setState({key: this.state.key + 1});
-      //return { shouldRepeat: true, duration: this.state.timerDurations[this.state.durationIndex]}
     } else {
       this.setState({message: 'hold for'})
       this.setState({durationIndex: this.state.durationIndex + 1});
       this.setState({isHold: !this.state.isHold});
       this.setState({key: this.state.key + 1});
-      //return { shouldRepeat: true, duration: this.state.timerDurations[this.state.durationIndex]}
     }
   }
-
 
 
   onTimerUpdate(remainingTime) {
@@ -190,7 +189,7 @@ function getTimeText(time) {
 }
 
 
-export function CO2PracticeScreen() {
+export function PracticeScreen() {
     return (
       <View style={styles.CO2PracticeScreenStyle}>
         <PracticeTimer/>

@@ -6,9 +6,10 @@ import Icon from 'react-native-vector-icons/Feather';
 import IosFonts from './IosFonts';
 import { TestScreen } from './Test';
 import { styles, LIGHT, DARK, ACSNT, ACSNT1 } from './Styles';
-import { CO2PracticeScreen } from './Practice';
+import { PracticeScreen } from './Practice';
 import * as SecureStore from 'expo-secure-store';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+import { Tables } from './Tables';
 
 checkValue();
 
@@ -50,16 +51,16 @@ function HomeScreen({ navigation }) {
 
         <TouchableOpacity
           style = {styles.HomeButtonStyle}
-          onPress={() => navigation.navigate('CO2Practice')}
+          onPress={() => navigation.navigate('Practice')}
         >
-          <Text style={styles.HomeButtonTextStyle}>C02 practice</Text>
+          <Text style={styles.HomeButtonTextStyle}>practice</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style = {styles.HomeButtonStyle}
-          onPress={() => navigation.navigate('O2Practice')}
+          onPress={() => navigation.navigate('EditTables')}
         >
-          <Text style={styles.HomeButtonTextStyle}>02 practice</Text>
+          <Text style={styles.HomeButtonTextStyle}>edit tables</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.Line}></View>
@@ -97,16 +98,19 @@ function App() {
           />
         <Stack.Screen name="Test" component={TestScreen} />
         <Stack.Screen
-          name="CO2Practice" 
-          component={CO2PracticeScreen}
+          name="Practice" 
+          component={PracticeScreen}
           options={{
             headerStyle: {
               backgroundColor: DARK,
             }
           }}
            />
-        <Stack.Screen name="O2Practice" component={CO2PracticeScreen} />
+
+        <Stack.Screen name="EditTables" component={Tables} />
       </Stack.Navigator>
+
+      
     </NavigationContainer>
   );
 }

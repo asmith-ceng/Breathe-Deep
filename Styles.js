@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { screensEnabled } from 'react-native-screens';
+
 
 export const LIGHT = '#EDF2F3';
 export const DARK = '#1F3541';
@@ -8,6 +9,9 @@ export const ACSNT1 = '#AFD8F2';
 export const ACSNT = '#5289B5';
 //const FONT;
 export const CIRCLE_SIZE = 220;
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
   // HOME SCREEN --------
@@ -144,6 +148,32 @@ export const styles = StyleSheet.create({
       color: '#b0e0e6'
     },
 
+    // Table list styles
+
+    TableScreenView: {
+      flex: 1,
+      backgroundColor: DARK,
+    },
+
+
+    TableItemView: {
+      marginTop: 5,
+      paddingLeft: 5,
+      width: windowWidth,
+      justifyContent: 'center',
+      height: 50,
+      backgroundColor: DARK,
+      borderRadius: 10,
+      borderColor: LIGHT,
+      borderWidth: 2,
+    },
+
+    TableTitle: {
+      marginLeft: 5,
+      color: LIGHT,
+      fontSize: 15,
+      fontFamily: 'Verdana-Bold'
+    },
     
   
     ButtonStyle: {

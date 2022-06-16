@@ -2,20 +2,7 @@ import * as React from 'react';
 import { Button, View, Text, StyleSheet, Timer, Stopwatch, AppRegistry, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { styles } from './Styles';
-import * as SecureStore from 'expo-secure-store';
-
-
-async function setCurrHold(newHold) {
-    await SecureStore.setItemAsync('curr-hold', newHold);
-}
-  
-async function getCurrHold() {
-    let result = await SecureStore.getItemAsync('curr-hold');
-    return result;
-}
-
-
-
+import { setCurrHold, getCurrHold } from './StorageManager'
 
 class TestTimer extends React.Component {
     state = {
