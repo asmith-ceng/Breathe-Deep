@@ -4552,7 +4552,7 @@ prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.0, prop-types@^15.7.2:
+prop-types@^15.6.0, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -4631,6 +4631,11 @@ react-native-a-beep@^1.1.0:
   resolved "https://registry.yarnpkg.com/react-native-a-beep/-/react-native-a-beep-1.1.0.tgz#4c53b50ba2b8551b621df0e0e0f0e7a232f391f7"
   integrity sha512-Twe3swF6jtOR6sB5DTPH1SBVyqQeivsKEtThwBV3accKz1LF9ZUyo6C9sD6OVaLksupIJaz/smmT1+AZ0vlARw==
 
+react-native-animated-wave@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-animated-wave/-/react-native-animated-wave-1.2.3.tgz#04c1e993264b4cb5cdad1f8ff86f4beadc6fcac2"
+  integrity sha512-Pwkn9V3OJmaDIpukF4NgNe4hVfHkXZCVIjNgkH0QhWcC2OTSE54vO2diH2WA324oLY1GYmwaWXqoayQNdCsWOw==
+
 react-native-codegen@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.6.tgz#b3173faa879cf71bfade8d030f9c4698388f6909"
@@ -4668,6 +4673,11 @@ react-native-screens@^3.13.1:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-select-dropdown@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-select-dropdown/-/react-native-select-dropdown-2.0.3.tgz#4e23668c6bba92ef05c1729fd3acd003ed2cf947"
+  integrity sha512-UEJxd1O6FW0IrEhdnHD/LwpksgkvHvqifpBqHmPuLhHmB/8oRLBQDLaXCodNTPu1nDQ/ARYOjUNxNuNIel9N6Q==
+
 react-native-sound@^0.11.2:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.11.2.tgz#e542dc5b9e16ab4b3ac7e6eaddb1fc8d98da9038"
@@ -4678,7 +4688,7 @@ react-native-sounds-beep@^0.0.1:
   resolved "https://registry.yarnpkg.com/react-native-sounds-beep/-/react-native-sounds-beep-0.0.1.tgz#f1c2f4989497d802562eb46aafda23f4992163bf"
   integrity sha512-1OmNXBU2C8qi1lCbz6DaRnTuaVX1WJDoqHRIvUvMXNffyQ0pFnf+3s3eQqHOfMtfXEAqWUsHwQeZjr8n67ggbQ==
 
-react-native-svg@^12.3.0:
+react-native-svg@^12.1.1, react-native-svg@^12.3.0:
   version "12.3.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.3.0.tgz#40f657c5d1ee366df23f3ec8dae76fd276b86248"
   integrity sha512-ESG1g1j7/WLD7X3XRFTQHVv0r6DpbHNNcdusngAODIxG88wpTWUZkhcM3A2HJTb+BbXTFDamHv7FwtRKWQ/ALg==
@@ -4693,6 +4703,18 @@ react-native-vector-icons@^9.1.0:
   dependencies:
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-waveview@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-waveview/-/react-native-waveview-1.1.0.tgz#7a791545d08bd0baadd66f8d8c7d3b55dcc572fe"
+  integrity sha512-TkYkWlfjutYfsLSIbeRtJbLVAHMpkkvhIfyWF3K7O1jocoBa94qXSdcv1bb0owWvBtUyEE9ODaVBnX5CJZezdQ==
+
+react-native-wavy-background@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-wavy-background/-/react-native-wavy-background-0.2.0.tgz#0cb687fda34eec1c619d0bf5e50d393f37901991"
+  integrity sha512-vmzqgWDhBb7qXWRrif1kFtuOjSUJLslXtT9kFNY1zzpuzzosmfGHAHjGqAf9WszUBYh3LEae1xyfOG1HqxTXvQ==
+  dependencies:
+    react-native-svg "^12.1.1"
 
 react-native-web@0.17.1:
   version "0.17.1"
@@ -4749,6 +4771,13 @@ react-refresh@^0.4.0:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
+
+react-wavify@^1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/react-wavify/-/react-wavify-1.5.7.tgz#6182d23fdb7c3b6efb33f8906d0713337e54f2ca"
+  integrity sha512-sTVZffh4gus5nVhbKGi0InKFLliA4NHxj0ZmgeHbUUKaOxB8HMY+GS7pS7JoUFhyNGdXIU5n6o5br7bAfO74Bw==
+  dependencies:
+    prop-types "^15.8.1"
 
 react@17.0.1:
   version "17.0.1"

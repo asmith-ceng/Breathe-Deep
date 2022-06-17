@@ -10,6 +10,8 @@ import { PracticeScreen } from './Practice';
 import * as SecureStore from 'expo-secure-store';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import { Tables } from './Tables';
+import WavyBackground from "react-native-wavy-background";
+
 
 checkValue();
 
@@ -35,7 +37,60 @@ let color = LIGHT;
 function HomeScreen({ navigation }) {
   return (
     <View style={styles.HomeScreenStyle}>
-      
+      <View
+        style={{
+          zIndex: 1,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+          <WavyBackground
+            height={300}
+            width={1100}
+            amplitude={20}
+            frequency={1}
+            offset={200}
+            color={ACSNT1}
+            bottom
+          />
+      </View>
+      <View
+        style={{
+          zIndex: 2,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+          <WavyBackground
+            height={300}
+            width={1100}
+            amplitude={20}
+            frequency={2}
+            offset={150}
+            color={ACSNT}
+            bottom
+          />
+      </View>
+      <View
+        style={{
+          zIndex: 3,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+          <WavyBackground
+            height={300}
+            width={1100}
+            amplitude={30}
+            frequency={1}
+            offset={75}
+            color={DARK}
+            bottom
+          />
+      </View>
       {/* <Text style={styles.HomeTextStyle}>Home Screen</Text> */}
       <View style={styles.TitleViewStyle}>
         <Text style={styles.OtherTitleTextStyle}>BREATHE</Text>
@@ -46,21 +101,21 @@ function HomeScreen({ navigation }) {
           style = {styles.HomeButtonStyle}
           onPress={() => navigation.navigate('Test')}
         >
-          <Text style={styles.HomeButtonTextStyle}>test hold</Text>
+          <Text style={styles.HomeButtonTextStyle}>Test hold</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style = {styles.HomeButtonStyle}
-          onPress={() => navigation.navigate('Practice')}
+          onPress={() => navigation.navigate('Train')}
         >
-          <Text style={styles.HomeButtonTextStyle}>practice</Text>
+          <Text style={styles.HomeButtonTextStyle}>Train</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style = {styles.HomeButtonStyle}
           onPress={() => navigation.navigate('EditTables')}
         >
-          <Text style={styles.HomeButtonTextStyle}>edit tables</Text>
+          <Text style={styles.HomeButtonTextStyle}>Edit tables</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.Line}></View>
@@ -98,7 +153,7 @@ function App() {
           />
         <Stack.Screen name="Test" component={TestScreen} />
         <Stack.Screen
-          name="Practice" 
+          name="Train" 
           component={PracticeScreen}
           options={{
             headerStyle: {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Button, View, Text, TouchableOpacity, Vibration } from 'react-native';
+import { Button, View, Text, TouchableOpacity, Vibration, FlatList } from 'react-native';
 import { LIGHT, styles } from './Styles';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-import * as SecureStore from 'expo-secure-store';
-import { getTable as getTableFromSM } from './StorageManager';
+import { getTable as getTableFromSM, getSelectedId, getUsedIds, setSelectedId } from './StorageManager';
+import SelectDropdown from 'react-native-select-dropdown';
+import WavyBackground from "react-native-wavy-background";
 
 // medium decrement of rest time (6.25 percent of PB less each interval)
 // const mediumDecrease = [0.5, 0.4375, 0.375, 0.3125, 0.25, 0.1875, 0.125, 0.0625];
@@ -13,11 +14,37 @@ let table = {
   id: null, title: null, intervals: null
 }
 
-async function getTable() {
+let intervalsForList = [];
+
+let tableList = [];
+let selectedId = 0;
+
+
+async function getTables() {
+  tableList = [];
   // get current selected id, dont just use 0
-  table = await getTableFromSM(0);
-  console.log(JSON.stringify(table));
-  return table.intervals;
+  let usedIds = await getUsedIds();
+  selectedId = await getSelectedId();
+
+
+  for (let i = 0; i < usedIds.length; i++) {
+    table = await getTableFromSM(usedIds[i]);
+    tableList.push(table);
+  }
+
+  //console.log(JSON.stringify(tableList));
+
+  let index = getTableIndex();
+  return index;
+}
+
+function getTableIndex() {
+  console.log(selectedId);
+  for (let i = 0; i < tableList.length; i++) {
+    if (tableList[i].id == selectedId) {
+      return i;
+    }
+  }
 }
 
 let first = false;
@@ -31,21 +58,49 @@ class PracticeTimer extends React.Component {
     buttonText: "start",
     isPlaying: false,
     isHold: false,
+    tableIndex: 0,
     timerDurations: [10],
     durationIndex: 0,
     key: 0,
     trail: 'black',
     color: LIGHT,
     message: 'relax for',
+    defaultSelectionText: 'Select a table',
+    tableTitle: 'no table selected',
   }
 
   constructor(props) {
     super(props);
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onTimerComplete = this.onTimerComplete.bind(this);
-    //this.onButtonPause = this.onButtonPause.bind(this);
-    //this.setState({timerDurations: getTestTimes()})
-    getTable().then(result => this.setState({timerDurations: result}));
+    getTables().then(result => this.asyncSetup(result));
+  }
+
+  asyncSetup(index) {
+    table = tableList[index];
+    this.setState({
+      tableIndex: index,
+      buttonText: "start",
+      isPlaying: false,
+      isHold: false,
+      durationIndex: 0,
+      key: this.state.key + 1,
+      message: 'relax for',
+      tableTitle: table.title,
+    });
+    
+    this.setState({timerDurations: table.intervals});
+    console.log("intervals state set to " + JSON.stringify(table.intervals));
+    intervalsForList = [];
+    for (let i = 0; i < table.intervals.length - 1; i++) {
+      let interval = {
+        id: i,
+        time: table.intervals[i],
+        type: i % 2 == 0 ? 'relax for ' : 'hold for ',
+      }
+      intervalsForList.push(interval);
+    }
+    this.forceUpdate();
   }
 
   componentDidMount() {
@@ -56,10 +111,16 @@ class PracticeTimer extends React.Component {
   }
 
   onSkipPress = () => {
+    if (this.state.durationIndex >= this.state.timerDurations.length - 1) {
+      return;
+    }
     this.onTimerComplete();
   }
 
   onButtonPress = () => {
+    if (this.state.durationIndex >= this.state.timerDurations.length - 1) {
+      return;
+    }
     if (this.state.isPlaying == false) {
       this.onButtonStart();
     } else {
@@ -123,12 +184,81 @@ class PracticeTimer extends React.Component {
     );
   }
 
+  Item = ({ text, style }) => (
+    <View>
+      <Text style={style}>{text}</Text>
+    </View>
+  );
+
+  renderItem = ({ item }) => {
+    let opacity = 1.0 / (Math.abs(item.id - this.state.durationIndex) + 1);
+    alert(opacity);
+    let style = {
+      color: LIGHT,
+      fontSize: 20,
+      fontFamily: 'Verdana-Bold',
+      margin: 2,
+      opacity: {opacity}
+    }
+    return(
+      <this.Item
+        text={item.time}
+        style={style}
+      />
+    )
+  }
+
+
+
   
 
   render() {
-    
+
+    let listData = [];
+    let leftInd = this.state.durationIndex - 2;
+    let rightInd = this.state.durationIndex + 3;
+    let leftDiff = leftInd * -1;
+    let rightDiff = ((this.state.timerDurations.length - 1) - rightInd) * -1;
+    if (leftInd < 0) {
+      leftInd = 0
+    }
+    if (rightInd >= this.state.timerDurations.length) {
+      rightInd = this.state.timerDurations.length - 1
+    }
+    listData = intervalsForList.slice(leftInd, rightInd);
+    for (let i = 0; i < leftDiff; i++) {
+      listData.unshift({id: -1 * (i+1), time: ' ', type: ' '});
+    }
+    for (let i = 0; i < rightDiff; i++) {
+      if (i == 0) {
+        listData.push({id: this.state.timerDurations.length - 1, time: 'session complete', type: ''});
+        continue;
+      }
+      listData.push({id: this.state.timerDurations.length + i, time: ' ', type: ' '});
+    }
+
+
+
     return(
     <View style={styles.CO2PracticeScreenStyle}>
+      <View
+        style={{
+          zIndex: 1,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+          <WavyBackground
+            height={300}
+            width={1100}
+            amplitude={20}
+            frequency={0.7}
+            offset={150}
+            color="#1F618D"
+            bottom
+          />
+      </View>
       <View style={styles.Circle}>
       <CountdownCircleTimer
         key={this.state.key}
@@ -148,7 +278,33 @@ class PracticeTimer extends React.Component {
       <View style={styles.CO2PracticeScreenStyle}>
       {/* make a dropdown menu for table selection here 
           onSelect will trigger new getTable() lookup     */}
-      <Text style={styles.HomeButtonTextStyle}>{table.title}</Text> 
+      <Text style={styles.TableTitleTextStyle}>{this.state.tableTitle}</Text>
+      <View style={{marginTop: 30}}>
+        <SelectDropdown
+          data={tableList}
+          onSelect={(selectedItem, index) => {
+            setSelectedId(selectedItem.id).then(console.log("set selected id"));
+            this.asyncSetup(index);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+          // text represented after item is selected
+          // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return this.state.defaultSelectionText;
+          }}
+          rowTextForSelection={(item, index) => {
+          // text represented for each item in dropdown
+          // if data array is an array of objects then return item.property to represent item in dropdown
+            return item.title;
+          }}
+          buttonStyle={styles.HomeButtonStyle}
+          buttonTextStyle={styles.HomeButtonTextStyle}
+          defaultButtonText={this.state.defaultSelectionText}
+          dropdownStyle={styles.DropDownStyle}
+          selectedRowStyle={styles.SelectedRowStyle}
+          selectedRowTextStyle={styles.SelectedRowTextStyle}
+          rowTextStyle={styles.HomeButtonTextStyle}
+        />
+      </View>
       <TouchableOpacity
         style = {styles.HomeButtonStyle}
         onPress={this.onButtonPress}
@@ -157,11 +313,40 @@ class PracticeTimer extends React.Component {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style = {styles.HomeButtonStyle}
+        style = {styles.SkipButtonStyle}
         onPress={this.onSkipPress}
       >
         <Text style={styles.HomeButtonTextStyle}>skip</Text>
       </TouchableOpacity>
+      {/* <FlatList
+        data={listData}
+        renderItem={({ item }) => 
+        <View style={styles.IntervalContainer}>
+          <View style={
+            {   
+              width: '80%',
+              alignItems: 'center',
+              borderWidth: 2,
+              borderColor: LIGHT,
+              opacity: 1.0 / (Math.abs(item.id - this.state.durationIndex) + 1),
+            }
+          }>
+            <Text style={
+              {
+                color: LIGHT,
+                fontSize: 20,
+                fontFamily: 'Verdana-Bold',
+                margin: 2,
+                opacity: 1.0 / (Math.abs(item.id - this.state.durationIndex) + 1),
+              }
+            }>{item.type}{item.time}</Text>
+          </View>
+        </View>}
+        keyExtractor={item => item.id}
+        //numColumns={listData.length}
+        //key={listData.length}
+        scrollEnabled={false}
+      /> */}
       </View>
     </View>
     );

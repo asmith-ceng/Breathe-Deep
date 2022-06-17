@@ -84,12 +84,11 @@ export const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'flex-start',
-      zIndex: 2,
     },
     
 
     ButtonViewStyle: {
-      flex: 1,
+      flex: 1.4,
       justifyContent: 'flex-start',
       alignItems: 'center',
       backgroundColor: DARK
@@ -110,13 +109,83 @@ export const styles = StyleSheet.create({
 
   // CO2Practice Screen
 
+  SkipButtonStyle: {
+    shadowColor: 'black',
+    shadowOffset: { height: 3, width: 3 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 5, //IOS
+    paddingVertical: 12,
+    width: 200,
+    borderRadius: 10,
+    borderColor: LIGHT,
+    borderWidth: 2,
+    backgroundColor: DARK,
+    alignSelf: 'center',
+    margin: 5,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+
+  IntervalContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    //flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent:'center',
+  },
+
+  IntervalItemRight: {
+    width: '50%',
+    alignItems: 'flex-start',
+    borderWidth: 2,
+    borderColor: LIGHT,
+  },
+
+  IntervalItemLeft: {
+    width: '50%',
+    alignItems: 'flex-end',
+    borderWidth: 2,
+    borderColor: LIGHT,
+  },
+
+  IntervalTextStyle: {
+    color: LIGHT,
+    fontSize: 20,
+    fontFamily: 'Verdana-Bold',
+    margin: 2,
+  },
+
+  TableTitleTextStyle: {
+    color: ACSNT1,
+    fontSize: 20,
+    fontFamily: 'Verdana-Bold',
+    marginBottom: 10,
+  },
+
+  RowTextStyle: {
+    color: DARK
+  },
+
+  DropDownStyle: {
+    backgroundColor: DARK
+  },
+
+  SelectedRowStyle: {
+    backgroundColor: LIGHT
+  },
+
+  SelectedRowTextStyle: {
+    color: DARK
+  },
+
   PlaceHolder: {
     backgroundColor: DARK,
-    flex: 1.5,
+    flex: 1.2,
     alignItems: 'center',
   },
 
     CO2PracticeScreenStyle: {
+      width: '100%',
       backgroundColor: DARK,
       flex: 2,
       alignItems: 'center',
