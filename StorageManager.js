@@ -7,10 +7,11 @@ const numIntervals = 8;
 const mediumDecrease = [0.5, 0.4375, 0.375, 0.3125, 0.25, 0.1875, 0.125, 0.0625];
 
 // gets a table object of a given integer id
-async function getTable(id) {
+export async function getTable(id) {
     let idString = 'table' + id;
     let result = await SecureStore.getItemAsync(idString);
     if (result) {
+        console.log('returning: ' + result);
         return JSON.parse(result);
     } else {
         if (id == 0) {
@@ -51,19 +52,23 @@ async function addTableRaw(table) {
 // gets the current breath hold value
 export async function getCurrHold() {
     let result = await SecureStore.getItemAsync('curr-hold');
-    return result;
+    if (result) {
+        return result;
+    }
+    setCurrHold('00:00').then(console.log(""));
+    return '00:00';
 }
 
 export async function setCurrHold(newHold) {
-    updateScalingTables(newHold);
+    
     await SecureStore.setItemAsync('curr-hold', newHold);
-     //.then(console.log('updated scaling tables'));
+    updateScalingTables(newHold).then(console.log(""));
 }
 
 // scales the default o2 and co2 tables based on currhold
-function updateScalingTables(newHold) {
-    let co2table = getTable(0).then(console.log('got table with id 0'));
-    let o2table = getTable(1).then(console.log('got table with id 1'));
+async function updateScalingTables(newHold) {
+    let co2table = await getTable(0);
+    let o2table = await getTable(1);
     let minutes = newHold.substring(0, 2);
     let seconds = newHold.substring(3, 5);
     seconds = parseInt(seconds);
@@ -99,6 +104,7 @@ async function addTable(table) {
 
 // gets the maximum id value of store of tables
 async function getMaxId() {
+    let maxId = await SecureStore.getItemAsync('maxId');
 
 }
 

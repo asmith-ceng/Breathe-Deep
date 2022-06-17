@@ -3,31 +3,21 @@ import { Button, View, Text, TouchableOpacity, Vibration } from 'react-native';
 import { LIGHT, styles } from './Styles';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import * as SecureStore from 'expo-secure-store';
+import { getTable as getTableFromSM } from './StorageManager';
 
 // medium decrement of rest time (6.25 percent of PB less each interval)
-const mediumDecrease = [0.5, 0.4375, 0.375, 0.3125, 0.25, 0.1875, 0.125, 0.0625];
-const numIntervals = 8;
-const baseIntervals = [15, 15, 13, 15, 11, 15, 9, 15, 8, 15, 6, 15, 4, 15, 2, 15, 0]
+// const mediumDecrease = [0.5, 0.4375, 0.375, 0.3125, 0.25, 0.1875, 0.125, 0.0625];
+// const numIntervals = 8;
+// const baseIntervals = [15, 15, 13, 15, 11, 15, 9, 15, 8, 15, 6, 15, 4, 15, 2, 15, 0]
+let table = {
+  id: null, title: null, intervals: null
+}
 
-async function getTestTimes() {
-  let currHold = await SecureStore.getItemAsync('curr-hold');
-  let minutes = currHold.substring(0, 2);
-  let seconds = currHold.substring(3, 5);
-  seconds = parseInt(seconds);
-  // total seconds of the current hold
-  seconds += 60 * parseInt(minutes);
-  
-  if (seconds < 30) {
-    return baseIntervals;
-  } else {
-    let intervals = []
-    for (let i = 0; i < numIntervals; i++) {
-      intervals.push(Math.round(seconds * mediumDecrease[i]));
-      intervals.push(Math.round(seconds * 0.5));  
-    }
-    intervals.push(0);
-    return intervals;
-  }
+async function getTable() {
+  // get current selected id, dont just use 0
+  table = await getTableFromSM(0);
+  console.log(JSON.stringify(table));
+  return table.intervals;
 }
 
 let first = false;
@@ -54,7 +44,8 @@ class PracticeTimer extends React.Component {
     this.onButtonPress = this.onButtonPress.bind(this);
     this.onTimerComplete = this.onTimerComplete.bind(this);
     //this.onButtonPause = this.onButtonPause.bind(this);
-    getTestTimes().then(result => this.setState({timerDurations: result}));
+    //this.setState({timerDurations: getTestTimes()})
+    getTable().then(result => this.setState({timerDurations: result}));
   }
 
   componentDidMount() {
@@ -135,6 +126,7 @@ class PracticeTimer extends React.Component {
   
 
   render() {
+    
     return(
     <View style={styles.CO2PracticeScreenStyle}>
       <View style={styles.Circle}>
@@ -154,6 +146,9 @@ class PracticeTimer extends React.Component {
       </View>
       <View style={styles.PlaceHolder}></View>
       <View style={styles.CO2PracticeScreenStyle}>
+      {/* make a dropdown menu for table selection here 
+          onSelect will trigger new getTable() lookup     */}
+      <Text style={styles.HomeButtonTextStyle}>{table.title}</Text> 
       <TouchableOpacity
         style = {styles.HomeButtonStyle}
         onPress={this.onButtonPress}
