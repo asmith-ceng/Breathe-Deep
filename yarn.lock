@@ -2586,6 +2586,13 @@ expo-asset@~8.4.6:
     path-browserify "^1.0.0"
     url-parse "^1.4.4"
 
+expo-av@~10.2.0:
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-10.2.1.tgz#c08bce464d673d0e90c68cac082bfb75a9437f25"
+  integrity sha512-thrkHVg4HVn8L+jHKVnXYd4TLkJQblFE8QXd3d1hwrYG63gehQT2nK4DM0Frl50EcdV8YN9XjhwHobtK5oMc9A==
+  dependencies:
+    "@expo/config-plugins" "^4.0.2"
+
 expo-constants@~13.0.2:
   version "13.0.2"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-13.0.2.tgz#b489ecd575cc82a9a0b3dfbf2385d45a44300eb1"
@@ -2654,6 +2661,11 @@ expo-secure-store@^11.2.0:
   version "11.2.0"
   resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-11.2.0.tgz#c2c8fdcac39c5e1828a8fea45765028a11625575"
   integrity sha512-PlmDplx9QNqaTVKNLgqSurRhzYf6YbVTTiSKX5JlEMWgOiBTz77Nh6mpMMjI1jwrvtz9grD+CT2AlDEGXe+Ovg==
+
+expo-speech@~10.1.0:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/expo-speech/-/expo-speech-10.1.1.tgz#fc4a820fd1bd6203c388837ab3947e24242c3615"
+  integrity sha512-tovcfD3Qi5WvY91d+N+dMVDMz+GwW/c9ze/Ct3cZQLBJQubqlVtlDqb/cDD2Uwuwb+zjAH3N6NfAFSgCdhqwAQ==
 
 expo-status-bar@~1.2.0:
   version "1.2.0"
@@ -4126,6 +4138,11 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.6"
 
+moment@^2.29.3:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
+  integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -4636,6 +4653,11 @@ react-native-animated-wave@^1.2.3:
   resolved "https://registry.yarnpkg.com/react-native-animated-wave/-/react-native-animated-wave-1.2.3.tgz#04c1e993264b4cb5cdad1f8ff86f4beadc6fcac2"
   integrity sha512-Pwkn9V3OJmaDIpukF4NgNe4hVfHkXZCVIjNgkH0QhWcC2OTSE54vO2diH2WA324oLY1GYmwaWXqoayQNdCsWOw==
 
+react-native-background-timer@*:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-background-timer/-/react-native-background-timer-2.4.1.tgz#a3bc1cafa8c1e3aeefd0611de120298b67978a0f"
+  integrity sha512-TE4Kiy7jUyv+hugxDxitzu38sW1NqjCk4uE5IgU2WevLv7sZacaBc6PZKOShNRPGirLl1NWkaG3LDEkdb9Um5g==
+
 react-native-codegen@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.6.tgz#b3173faa879cf71bfade8d030f9c4698388f6909"
@@ -4649,6 +4671,13 @@ react-native-countdown-circle-timer@^3.0.9:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/react-native-countdown-circle-timer/-/react-native-countdown-circle-timer-3.0.9.tgz#ef16c9301197922669bc3afa498d5a1218e59aa9"
   integrity sha512-7djFk+2QQS9FAhfIUhwQoc+P/7Vkn9EJApr6zUWK9B5QvHP07UlqIWfhIPqqeMa4kP6y5Y2S3YL+xeRsq2tNfg==
+
+react-native-element-timer@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-element-timer/-/react-native-element-timer-2.0.0.tgz#edfb08cbafc4dddfe766024dd6f2ec2725b24ee6"
+  integrity sha512-8XgLG5UXTVcUZhnZdISh25OPlAUW1D9sLWWjXRuSKbtymPjnfb0F57IMg4tHLUUsM1HZ0ogUIyB7pldxENREfQ==
+  dependencies:
+    react-native-background-timer "*"
 
 react-native-mmkv-storage@^0.7.2:
   version "0.7.2"
@@ -4688,6 +4717,13 @@ react-native-sounds-beep@^0.0.1:
   resolved "https://registry.yarnpkg.com/react-native-sounds-beep/-/react-native-sounds-beep-0.0.1.tgz#f1c2f4989497d802562eb46aafda23f4992163bf"
   integrity sha512-1OmNXBU2C8qi1lCbz6DaRnTuaVX1WJDoqHRIvUvMXNffyQ0pFnf+3s3eQqHOfMtfXEAqWUsHwQeZjr8n67ggbQ==
 
+react-native-stopwatch-timer@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/react-native-stopwatch-timer/-/react-native-stopwatch-timer-0.0.21.tgz#52c39f603e36c538bed3466212b1bfb350ed452f"
+  integrity sha512-qFFsD85NkBT1nxo32HMGq3XAtQyMC09p9ZDIEuOED2BOxgs0UpWg/FSTA0MmEoIKMyXUwSE5VxEzBaGP3z1HFw==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-svg@^12.1.1, react-native-svg@^12.3.0:
   version "12.3.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.3.0.tgz#40f657c5d1ee366df23f3ec8dae76fd276b86248"
@@ -4695,6 +4731,11 @@ react-native-svg@^12.1.1, react-native-svg@^12.3.0:
   dependencies:
     css-select "^4.2.1"
     css-tree "^1.0.0-alpha.39"
+
+react-native-tts@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-tts/-/react-native-tts-4.1.0.tgz#05fa34492bec234bcd64f6ed2bf122c4667d141a"
+  integrity sha512-tvf3lQ6u9MqztUie37qoPw5YQPqi0ql1lPhDsBBs/RRA6A/H1J9X9H/qb1A0Hx0ZpjavrEdtVSqQQ2JDZvZCTQ==
 
 react-native-vector-icons@^9.1.0:
   version "9.1.0"

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Button, View, Text, TouchableOpacity, Vibration, FlatList } from 'react-native';
-import { LIGHT, styles } from './Styles';
+import { LIGHT, styles, DARK, ACSNT, ACSNT1, waves } from './Styles';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import { getTable as getTableFromSM, getSelectedId, getUsedIds, setSelectedId } from './StorageManager';
 import SelectDropdown from 'react-native-select-dropdown';
-import WavyBackground from "react-native-wavy-background";
+import * as Speech from 'expo-speech';
+import { Audio } from "expo-av";
+
+const soundObject = new Audio.Sound();
 
 // medium decrement of rest time (6.25 percent of PB less each interval)
 // const mediumDecrease = [0.5, 0.4375, 0.375, 0.3125, 0.25, 0.1875, 0.125, 0.0625];
@@ -19,6 +22,11 @@ let intervalsForList = [];
 let tableList = [];
 let selectedId = 0;
 
+async function setAudioSettings() {
+  await Audio.setAudioModeAsync({
+    playsInSilentModeIOS: true,
+  });
+}
 
 async function getTables() {
   tableList = [];
@@ -104,6 +112,7 @@ class PracticeTimer extends React.Component {
   }
 
   componentDidMount() {
+    setAudioSettings().then(console.log('audio settings set'));
   }
 
 
@@ -139,7 +148,22 @@ class PracticeTimer extends React.Component {
   }
 
   onTimerComplete = () => {
+    third = false;
+    second = false;
+    first = false;
     Vibration.vibrate(1000);
+    let speech = '';
+    if (this.state.isHold) {
+      speech = 'relax';
+    } else {
+      speech = 'hold';
+    }
+    Speech.getAvailableVoicesAsync().then(result => console.log(result));
+    Speech.speak(
+      speech,
+      {
+        voice: 'com.apple.ttsbundle.siri_Aaron_en-US_compact' // modularize this so it uses owners siri voice?
+      });
     if (this.state.durationIndex == this.state.timerDurations.length - 2) {
       this.setState({message: 'session complete!'})
       this.setState({durationIndex: this.state.durationIndex + 1});
@@ -160,8 +184,15 @@ class PracticeTimer extends React.Component {
 
 
   onTimerUpdate(remainingTime) {
+    console.log(remainingTime);
     if (remainingTime == 3 && !first) {
+      console.log("here");
       Vibration.vibrate(100);
+      Speech.speak(
+        '3 seconds',
+        {
+          voice: 'com.apple.ttsbundle.siri_Aaron_en-US_compact' // modularize this so it uses owners siri voice?
+      });
       third = false;
       second = false;
       first = true;
@@ -192,7 +223,6 @@ class PracticeTimer extends React.Component {
 
   renderItem = ({ item }) => {
     let opacity = 1.0 / (Math.abs(item.id - this.state.durationIndex) + 1);
-    alert(opacity);
     let style = {
       color: LIGHT,
       fontSize: 20,
@@ -208,12 +238,7 @@ class PracticeTimer extends React.Component {
     )
   }
 
-
-
-  
-
   render() {
-
     let listData = [];
     let leftInd = this.state.durationIndex - 2;
     let rightInd = this.state.durationIndex + 3;
@@ -241,38 +266,22 @@ class PracticeTimer extends React.Component {
 
     return(
     <View style={styles.CO2PracticeScreenStyle}>
-      <View
-        style={{
-          zIndex: 1,
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-        }}>
-          <WavyBackground
-            height={300}
-            width={1100}
-            amplitude={20}
-            frequency={0.7}
-            offset={150}
-            color="#1F618D"
-            bottom
-          />
-      </View>
+      {waves}
       <View style={styles.Circle}>
-      <CountdownCircleTimer
-        key={this.state.key}
-        isPlaying={this.state.isPlaying}
-        duration={this.state.timerDurations[this.state.durationIndex]}
-        initialRemainingTime={this.state.timerDurations[this.state.durationIndex]}
-        colors={LIGHT}
-        size={220}
-        trailColor={'black'}
-        //colorsTime={[7, 5, 2, 0]}
-        onComplete={this.onTimerComplete}
-      >
-        {({ remainingTime }) => this.onTimerUpdate(remainingTime) }
-      </CountdownCircleTimer>
+        <Text style={styles.IntervalProgressText}>{(this.state.durationIndex + 1) > (this.state.timerDurations.length - 1) ? ' ' : 'Interval ' + (this.state.durationIndex + 1) + ' of ' + (this.state.timerDurations.length-1)}</Text>
+        <CountdownCircleTimer
+          key={this.state.key}
+          isPlaying={this.state.isPlaying}
+          duration={this.state.timerDurations[this.state.durationIndex]}
+          initialRemainingTime={this.state.timerDurations[this.state.durationIndex]}
+          colors={LIGHT}
+          size={220}
+          trailColor={'black'}
+          //colorsTime={[7, 5, 2, 0]}
+          onComplete={this.onTimerComplete}
+        >
+          {({ remainingTime }) => this.onTimerUpdate(remainingTime) }
+        </CountdownCircleTimer>
       </View>
       <View style={styles.PlaceHolder}></View>
       <View style={styles.CO2PracticeScreenStyle}>

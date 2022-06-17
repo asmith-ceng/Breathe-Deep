@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
 import { screensEnabled } from 'react-native-screens';
+import WavyBackground from "react-native-wavy-background";
 
 
 export const LIGHT = '#EDF2F3';
@@ -52,15 +53,15 @@ export const styles = StyleSheet.create({
 
     OtherTitleTextStyle: {
       color: ACSNT1,
-      fontSize: 30,
+      fontSize: 50,
       paddingTop: 100,
       fontFamily: 'Verdana-Bold',
     },
 
     Line: {
-      marginTop: 136,
+      marginTop: 160,
       backgroundColor: LIGHT,
-      width: 100,
+      width: 200,
       height: 4,
       zIndex: 2,
       position: 'absolute',
@@ -70,14 +71,8 @@ export const styles = StyleSheet.create({
 
     TitleTextStyle: {
       color: ACSNT,
-      fontSize: 30,
-      transform: [
-        {scaleY: 1},
-        {scaleX: 1}
-      ],
-      
+      fontSize: 50,
       fontFamily: 'Verdana-Bold',
-      //alignSelf: 'stretch',
     },
 
     TitleViewStyle: {
@@ -108,6 +103,14 @@ export const styles = StyleSheet.create({
     },
 
   // CO2Practice Screen
+
+
+  IntervalProgressText: {
+    color: LIGHT,
+    fontSize: 20,
+    fontFamily: 'Verdana-Bold',
+    marginBottom: 5,
+  },
 
   SkipButtonStyle: {
     shadowColor: 'black',
@@ -160,6 +163,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Verdana-Bold',
     marginBottom: 10,
+    marginTop: 10,
   },
 
   RowTextStyle: {
@@ -276,7 +280,7 @@ export const styles = StyleSheet.create({
     },
   
     TimerText: {
-      color: '#b0e0e6',
+      color: LIGHT,
       fontSize: 50,
       fontFamily: 'Verdana-Bold',
       alignSelf: 'center',
@@ -290,14 +294,14 @@ export const styles = StyleSheet.create({
 
     SetButtonView: {
         flex: 1.5,
-        backgroundColor: '#00004d'
+        backgroundColor: LIGHT
     },
 
     TimerView: {
-        flex: 5,
+        flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#00004d'
+        backgroundColor: DARK
     },
   
     ScreenStyle: {
@@ -307,6 +311,77 @@ export const styles = StyleSheet.create({
 
     CenterView: {
       flex: 1,
-      backgroundColor: '#00004d',
+      backgroundColor: DARK,
     },
-  });
+
+    SetHoldView: {
+      flex: 1,
+      backgroundColor: DARK,
+      alignItems: 'center'
+    }
+});
+
+export const waves = (
+  <View style={{
+    zIndex: 1,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }}>
+  <View
+        style={{
+          zIndex: 1,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+          <WavyBackground
+            height={300}
+            width={1100}
+            amplitude={20}
+            frequency={1}
+            offset={200}
+            color={ACSNT1}
+            bottom
+          />
+      </View>
+      <View
+        style={{
+          zIndex: 2,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+          <WavyBackground
+            height={300}
+            width={1100}
+            amplitude={20}
+            frequency={2}
+            offset={150}
+            color={ACSNT}
+            bottom
+          />
+      </View>
+      <View
+        style={{
+          zIndex: 3,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+          <WavyBackground
+            height={300}
+            width={1100}
+            amplitude={30}
+            frequency={1}
+            offset={75}
+            color={DARK}
+            bottom
+          />
+      </View>
+      </View>
+);

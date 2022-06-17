@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Button, View, Text, StyleSheet, Timer, Stopwatch, AppRegistry, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { styles } from './Styles';
-import { setCurrHold, getCurrHold } from './StorageManager'
+import { styles, waves } from './Styles';
+import { setCurrHold, getCurrHold } from './StorageManager';
+import moment from 'moment'
 
 class TestTimer extends React.Component {
     state = {
@@ -10,7 +11,6 @@ class TestTimer extends React.Component {
         timer: null,
         minutes: '00',
         seconds: '00',
-        miliseconds: '0',
         timerRunning: false,
         testFinished: false,
         buttonTitle: "Start Test",
@@ -39,26 +39,19 @@ class TestTimer extends React.Component {
     start() {
         var self = this;
         let timer = setInterval(() => {
-            var num = (Number(this.state.miliseconds) + 1).toString(),
-                count = this.state.seconds,
-                min = this.state.minutes;
-  
-            if (Number(this.state.miliseconds) == 99 ) {
-                count = (Number(this.state.seconds) + 1).toString();
-                num = '00';
-            }
+            var sec = (Number(this.state.seconds) + 1).toString(),
+              min = this.state.minutes;
   
             if (Number(this.state.seconds) == 60 ) {
               min = (Number(this.state.minutes) + 1).toString();
-              count = '00';
+              sec = '00';
             }
   
             self.setState({
                 minutes: min,
-                seconds: count.length == 1 ? '0'+count : count,
-                miliseconds: num.length == 1 ? '0'+num : num
+                seconds: sec.length == 1 ? '0'+sec : sec,
             });
-        }, 0);
+        }, 1000);
         this.setState({timer});
     }
   
@@ -68,7 +61,6 @@ class TestTimer extends React.Component {
             timer: null,
             minutes: '00',
             seconds: '00',
-            miliseconds: '00',
             timerRunning: false,
             testFinished: false,
             buttonTitle: "Start Test",
@@ -89,7 +81,7 @@ class TestTimer extends React.Component {
     }
 
     onSetButton = () => {
-        let currHold = this.state.minutes+':'+this.state.seconds+'.'+this.state.miliseconds.charAt(0);
+        let currHold = this.state.minutes+':'+this.state.seconds;
         setCurrHold(currHold).then(this.forceUpdate());
         this.setState({currHold: currHold});
         this.onButtonStart();
@@ -97,12 +89,14 @@ class TestTimer extends React.Component {
 
     renderHoldSetButton() {
         return(
+          //<View style={styles.SetHoldView}>
             <TouchableOpacity
-            style = {styles.SetHoldButtonStyle}
+            style = {[styles.HomeButtonStyle, {marginTop: 20}]}
             onPress = {this.onSetButton}
             >
-            <Text style={styles.ButtonText}>set {this.state.minutes}:{this.state.seconds}.{this.state.miliseconds.charAt(0)} as current hold</Text>
+            <Text style={styles.HomeButtonTextStyle}>set {this.state.minutes}:{this.state.seconds} as current hold</Text>
             </TouchableOpacity>
+          //</View>
         );
     }
   
@@ -114,7 +108,9 @@ class TestTimer extends React.Component {
       }
       return(
         <View style={styles.CenterView}>
-            <View style={styles.TopBar}>
+          {waves}
+          <View style={{flex: 0.3}}></View>
+            {/* <View style={styles.TopBar}>
                 <TouchableOpacity
                     style = {styles.VolumeButton}
                 >
@@ -125,19 +121,17 @@ class TestTimer extends React.Component {
                     />
                 </TouchableOpacity>
                 <Text style={styles.TextColor}>{this.state.currHold}</Text>
-            </View>
-            <View style={styles.SetButtonView}>
-              {setButton}
-            </View>
+            </View> */}
             <View style={styles.TimerView}>
-                <Text style={styles.TimerText}>{this.state.minutes}:{this.state.seconds}.{this.state.miliseconds.charAt(0)}</Text>
+                <Text style={styles.TimerText}>{this.state.minutes}:{this.state.seconds}</Text>
 
                 <TouchableOpacity
-                    style = {styles.ButtonStyle}
+                    style = {styles.HomeButtonStyle}
                     onPress={this.onButtonStart}
                 >
-                    <Text style={styles.ButtonText}>{this.state.buttonTitle}</Text>
+                    <Text style={styles.HomeButtonTextStyle}>{this.state.buttonTitle}</Text>
                 </TouchableOpacity>
+                {setButton}
             </View>
         </View>
       );
