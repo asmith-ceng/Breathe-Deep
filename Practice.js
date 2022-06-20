@@ -72,7 +72,7 @@ class PracticeTimer extends React.Component {
     key: 0,
     trail: 'black',
     color: LIGHT,
-    message: 'relax for',
+    message: 'breathe for',
     defaultSelectionText: 'Select a table',
     tableTitle: 'no table selected',
   }
@@ -93,7 +93,7 @@ class PracticeTimer extends React.Component {
       isHold: false,
       durationIndex: 0,
       key: this.state.key + 1,
-      message: 'relax for',
+      message: 'breathe for',
       tableTitle: table.title,
     });
     
@@ -104,7 +104,7 @@ class PracticeTimer extends React.Component {
       let interval = {
         id: i,
         time: table.intervals[i],
-        type: i % 2 == 0 ? 'relax for ' : 'hold for ',
+        type: i % 2 == 0 ? 'breathe for ' : 'hold for ',
       }
       intervalsForList.push(interval);
     }
@@ -153,12 +153,14 @@ class PracticeTimer extends React.Component {
     first = false;
     Vibration.vibrate(1000);
     let speech = '';
-    if (this.state.isHold) {
-      speech = 'relax';
+    if (this.state.durationIndex == this.state.timerDurations.length - 2) {
+      speech = 'session complete, well done';
+    } else if (this.state.isHold) {
+      speech = 'breathe';
     } else {
-      speech = 'hold';
+      speech = 'hold breath';
     }
-    Speech.getAvailableVoicesAsync().then(result => console.log(result));
+    //Speech.getAvailableVoicesAsync().then(result => console.log(result));
     Speech.speak(
       speech,
       {
@@ -170,7 +172,7 @@ class PracticeTimer extends React.Component {
       return { shouldRepeat: false };
     }
     if (this.state.isHold == true) {
-      this.setState({message: 'relax for'})
+      this.setState({message: 'breathe for'})
       this.setState({durationIndex: this.state.durationIndex + 1});
       this.setState({isHold: !this.state.isHold});
       this.setState({key: this.state.key + 1});
@@ -184,9 +186,7 @@ class PracticeTimer extends React.Component {
 
 
   onTimerUpdate(remainingTime) {
-    console.log(remainingTime);
     if (remainingTime == 3 && !first) {
-      console.log("here");
       Vibration.vibrate(100);
       Speech.speak(
         '3 seconds',

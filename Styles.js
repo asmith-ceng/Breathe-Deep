@@ -233,12 +233,14 @@ export const styles = StyleSheet.create({
       marginTop: 5,
       paddingLeft: 5,
       width: windowWidth,
-      justifyContent: 'center',
+      //justifyContent: 'center',
+      alignItems: 'center',
       height: 50,
       backgroundColor: DARK,
       borderRadius: 10,
       borderColor: LIGHT,
       borderWidth: 2,
+      flexDirection: 'row',
     },
 
     TableTitle: {
@@ -246,6 +248,18 @@ export const styles = StyleSheet.create({
       color: LIGHT,
       fontSize: 15,
       fontFamily: 'Verdana-Bold'
+    },
+
+    TableListPartView: {
+      flex: 1,
+      borderColor: LIGHT,
+      borderWidth: 2,
+    },
+
+    TableInfoView: {
+      flex: 0.3,
+      borderColor: LIGHT,
+      borderWidth: 2,
     },
     
   
