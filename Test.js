@@ -42,13 +42,13 @@ class TestTimer extends React.Component {
             var sec = (Number(this.state.seconds) + 1).toString(),
               min = this.state.minutes;
   
-            if (Number(this.state.seconds) == 60 ) {
+            if (Number(this.state.seconds) == 59) {
               min = (Number(this.state.minutes) + 1).toString();
               sec = '00';
             }
   
             self.setState({
-                minutes: min,
+                minutes: min.length == 1 ? '0'+min : min,
                 seconds: sec.length == 1 ? '0'+sec : sec,
             });
         }, 1000);
@@ -94,7 +94,7 @@ class TestTimer extends React.Component {
             style = {[styles.HomeButtonStyle, {marginTop: 20}]}
             onPress = {this.onSetButton}
             >
-            <Text style={styles.HomeButtonTextStyle}>set {this.state.minutes}:{this.state.seconds} as current hold</Text>
+            <Text style={styles.HomeButtonTextStyle}>set {this.state.minutes}:{this.state.seconds} as current best</Text>
             </TouchableOpacity>
           //</View>
         );
@@ -109,30 +109,20 @@ class TestTimer extends React.Component {
       return(
         <View style={styles.CenterView}>
           {waves}
-          <View style={{flex: 0.3}}></View>
-            {/* <View style={styles.TopBar}>
-                <TouchableOpacity
-                    style = {styles.VolumeButton}
-                >
-                    <Icon
-                    name='volume-2'
-                    color='#b0e0e6'
-                    size={50}
-                    />
-                </TouchableOpacity>
-                <Text style={styles.TextColor}>{this.state.currHold}</Text>
-            </View> */}
-            <View style={styles.TimerView}>
-                <Text style={styles.TimerText}>{this.state.minutes}:{this.state.seconds}</Text>
+          <View style={{flex: 0.3, alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={styles.HomeButtonTextStyle}>your current best is: {this.state.currHold}</Text>
+          </View>
+          <View style={styles.TimerView}>
+              <Text style={styles.TimerText}>{this.state.minutes}:{this.state.seconds}</Text>
 
-                <TouchableOpacity
-                    style = {styles.HomeButtonStyle}
-                    onPress={this.onButtonStart}
-                >
-                    <Text style={styles.HomeButtonTextStyle}>{this.state.buttonTitle}</Text>
-                </TouchableOpacity>
-                {setButton}
-            </View>
+              <TouchableOpacity
+                  style = {styles.HomeButtonStyle}
+                  onPress={this.onButtonStart}
+              >
+                  <Text style={styles.HomeButtonTextStyle}>{this.state.buttonTitle}</Text>
+              </TouchableOpacity>
+              {setButton}
+          </View>
         </View>
       );
     }
